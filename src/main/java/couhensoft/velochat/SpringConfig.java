@@ -1,0 +1,21 @@
+package couhensoft.velochat;
+
+import couhensoft.velochat.repository.MemberRepository;
+import couhensoft.velochat.repository.MemoryMemberRepository;
+import couhensoft.velochat.service.MemberService;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class SpringConfig{
+
+    @Bean
+    public MemberService memberService(){
+        return new MemberService(memberRepository());
+    }
+
+    @Bean
+    public MemberRepository memberRepository(){
+        return new MemoryMemberRepository();
+    }
+}

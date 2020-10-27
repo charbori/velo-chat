@@ -2,14 +2,14 @@ package couhensoft.velochat.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import javax.servlet.http.HttpServletRequest;
+import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,28 +18,48 @@ import java.util.Optional;
 
 import static couhensoft.velochat.ApplicationConstants.*;
 
-//webflux 의존성 추가해야 동작
-
-
-
 @Service
-public class VideoStreamService {
-
+public class VideoSampleService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    /**
-     * Prepare the content.
-     *
-     * @param fileName String.
-     * @param fileType String.
-     * @param range    String.
-     * @return ResponseEntity.
-     */
-    public ResponseEntity<byte[]> prepareContent(String fileName, String fileType, String range) {
+    File MP4_FILE = new File("C:\\Users\\binst\\Downloads\\sample.mp4");
+
+    /*
+    public StreamingResponseBody runVideo() throws FileNotFoundException {
+        final InputStream videoFileStream = new FileInputStream(MP4_FILE);
+        return (os) -> {
+            readAndWrite(videoFileStream, os);
+        };
+    }
+
+    private void readAndWrite(final InputStream is, OutputStream os)
+            throws IOException {
+        byte[] data = new byte[2048];
+        int read = 0;
+        while ((read = is.read(data)) > 0) {
+            os.write(data, 0, read);
+        }
+        os.flush();
+    }
+    */
+
+    /*
+    public ResponseEntity<InputStreamResource> sendVideo() throws IOException {
+        InputStream videoFileStream = new FileInputStream(MP4_FILE);
+        return ResponseEntity.ok()
+                .contentLength(MP4_FILE.length())
+                .contentType(MediaType.parseMediaType("video/mp4"))
+                .body(new InputStreamResource(videoFileStream));
+
+    }
+    */
+
+    public ResponseEntity<byte[]> sendVideo(String fileName, String fileType, String range){
         long rangeStart = 0;
         long rangeEnd;
         byte[] data;
         Long fileSize;
+
         String fullFileName = fileName + "." + fileType;
         try {
             fileSize = getFileSize(fullFileName);
@@ -64,6 +84,7 @@ public class VideoStreamService {
             logger.error("Exception while reading the file {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+
         String contentLength = String.valueOf((rangeEnd - rangeStart) + 1);
         return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT)
                 .header(CONTENT_TYPE, VIDEO_CONTENT + fileType)
@@ -71,33 +92,23 @@ public class VideoStreamService {
                 .header(CONTENT_LENGTH, contentLength)
                 .header(CONTENT_RANGE, BYTES + " " + rangeStart + "-" + rangeEnd + "/" + fileSize)
                 .body(data);
-
-
     }
 
-    /**
-     * ready file byte by byte.
-     *
-     * @param filename String.
-     * @param start    long.
-     * @param end      long.
-     * @return byte array.
-     * @throws IOException exception.
-     */
     public byte[] readByteRange(String filename, long start, long end) throws IOException {
         Path path = Paths.get(getFilePath(), filename);
-        try (InputStream inputStream = (Files.newInputStream(path));
-             ByteArrayOutputStream bufferedOutputStream = new ByteArrayOutputStream()) {
-            byte[] data = new byte[BYTE_RANGE];
-            int nRead;
-            while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
-                bufferedOutputStream.write(data, 0, nRead);
-            }
-            bufferedOutputStream.flush();
-            byte[] result = new byte[(int) (end - start) + 1];
-            System.arraycopy(bufferedOutputStream.toByteArray(), (int) start, result, 0, result.length);
-            return result;
+        InputStream inputStream = (Files.newInputStream(path));
+
+        ByteArrayOutputStream bufferedOutputStream = new ByteArrayOutputStream();
+
+        byte[] data = new byte[BYTE_RANGE];
+        int nRead;
+        while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+            bufferedOutputStream.write(data, 0, nRead);
         }
+        bufferedOutputStream.flush();
+        byte[] result = new byte[(int) (end - start) + 1];
+        System.arraycopy(bufferedOutputStream.toByteArray(), (int) start, result, 0, result.length);
+        return result;
     }
 
     /**

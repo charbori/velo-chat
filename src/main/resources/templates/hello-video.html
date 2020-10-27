@@ -9,8 +9,8 @@
     <title>Title</title>
 </head>
 <body>
-<video id="player" width="640" height="480" controls autoplay>
-    <source src="http://localhost:8080/videoStream/stream/mp4/sample" type="video/mp4">
+<video id="player" width="640" height="480" controls preload="none">
+    <source src="http://localhost:8080/videoSample/stream/mp4/sample" type="video/mp4">
 </video>
 <video
         id="my-video"
@@ -22,7 +22,7 @@
         poster="MY_VIDEO_POSTER.jpg"
         data-setup="{}">
 
-    <source src="http://localhost:8080/staticVideo" type="video/mp4" />
+    <source src="http://localhost:8080/videoSample/stream/mp4/sample" type="video/mp4" />
     <p class="vjs-no-js">
         To view this video please enable JavaScript, and consider upgrading to a
         web browser that

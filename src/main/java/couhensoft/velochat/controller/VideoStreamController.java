@@ -8,10 +8,11 @@ import reactor.core.publisher.Mono;
 
 //https://github.com/saravanastar/video-streaming
 
+//webflux 의존성 추가해야 동작
+
 @RestController
 @RequestMapping("/videoStream")
 public class VideoStreamController {
-
     private final VideoStreamService videoStreamService;
 
     public VideoStreamController(VideoStreamService videoStreamService) {

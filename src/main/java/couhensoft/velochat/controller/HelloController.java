@@ -30,8 +30,8 @@ public class HelloController {
         return hello;
     }
 
-    @GetMapping("hello-video")
-    public String helloVideo(){
+    @GetMapping("/hello-video")
+    public String helloApi(){
         return "hello-video";
     }
 
@@ -54,16 +54,6 @@ public class HelloController {
 //        model.setViewName("video");
 //        return model;
 //    }
-
-    private void readAndWrite(final InputStream is, OutputStream os)
-            throws IOException {
-        byte[] data = new byte[2048];
-        int read = 0;
-        while ((read = is.read(data)) > 0) {
-            os.write(data, 0, read);
-        }
-        os.flush();
-    }
 
     static class Hello {
         private String name;
