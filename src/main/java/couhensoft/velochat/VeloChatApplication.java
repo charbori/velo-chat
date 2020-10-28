@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class VeloChatApplication {
 
 	public static void main(String[] args) {
+		System.setProperty("spring.profiles.default", "local");
 		SpringApplication.run(VeloChatApplication.class, args);
 	}
 
