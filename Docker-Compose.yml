@@ -1,0 +1,34 @@
+version: '3.7'
+services:
+
+  src:
+    container_name: spring_boot
+    depends_on:
+    - redis
+    - mysql
+    image: openjdk:11
+    ports:
+      - "8080:8080"
+    volumes:
+      - type: bind
+        source: "./build/libs"
+        target: "/app"
+        read_only: true
+    entrypoint: [ "java", "-jar", "/app/velo-chat-0.0.1-snapshot.jar" ]
+
+  redis:
+    container_name: spring_redis
+    build: ./docker/redis
+    ports:
+      - "6379:6379"
+
+  mysql:
+    container_name : spring_mysql
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: test_db
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: '%'
+    build: ./docker/mysql
+    ports:
+      - "3306:3306"

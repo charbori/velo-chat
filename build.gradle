@@ -2,11 +2,12 @@ plugins {
 	id 'org.springframework.boot' version '2.3.4.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 	id 'java'
-	id 'war'
+	//'war' 설정을 하면 jar파일 대신 war파일이 생성된다.
+	//id 'war'
 }
 
 group = 'couhensoft'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1-snapshot'
 
 repositories {
 	mavenCentral()
@@ -16,8 +17,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
-	//implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	runtimeOnly 'mysql:mysql-connector-java'
 	implementation 'org.projectlombok:lombok:1.18.12'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '2.3.4.RELEASE'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
@@ -25,7 +30,8 @@ dependencies {
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 	implementation 'javax.servlet:jstl:1.2'
 	implementation 'io.projectreactor:reactor-test'
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	//compile("io.lettuce:lettuce-core:6.0.1.RELEASE")
+
 }
 
 test {
