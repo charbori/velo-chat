@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,7 @@ public class JpaMemberRepository implements MemberRepository{
     }
 
     @Override
+    @Transactional
     public Member save(Member member) {
         em.persist(member);
         return member;

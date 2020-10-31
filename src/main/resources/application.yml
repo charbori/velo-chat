@@ -1,48 +1,42 @@
-server:
-  port: 8080
-
-spring:
-  redis:
-    host: spring_redis
-    port: 6379
-
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    # url은 db 이름
-    # testdb? 이후에 &amp를 포함하여 분리해줘야한다.
-    # url: jdbc:mysql:U+202A//localhost:3306/test_db?serverTimezone=UTC&amp;characterEncoding=UTF-8&amp;autoReconnection=true&amp;
-    url: jdbc:mysql://localhost:3306/test_db
-    username: root
-    password: root
-    continueOnError: true
-    initialize: false
-    initialSize: 0
-    timeBetweenEvictionRunsMillis: 5000
-    minEvictableIdleTimeMillis: 5000
-    minIdle: 0
-
-  jpa:
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-    open-in-view: false
-    show-sql: true
-    hibernate:
-      ddl-auto: create
-      generate-ddl: true
-
-  profiles:
-    active:
-      - local
-  mvc:
-    view:
-      prefix: /WEB-INF/views/
-      suffix: .jsp
-
-logging:
-  level:
-    org:
-      hibernate:
-        SQL: DEBUG
-        type:
-          descriptor:
-            sql:
-              BasicBinder: TRACE
+#server:
+#  port: 8080
+#
+#spring:
+#  redis:
+#    host: spring_redis
+#    port: 6379
+#
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    # url은 db 이름
+#    # testdb? 이후에 &amp를 포함하여 분리해줘야한다.
+#    url: jdbc:mysql://localhost:3306/test_db?serverTimezone=UTC&characterEncoding=UTF-8
+#    # url: jdbc:mysql://localhost:3306/test_db
+#    username: root
+#    password: root
+#
+##  jpa:
+##    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+##    open-in-view: false
+##    show-sql: true
+##    hibernate:
+##      ddl-auto: create
+##      generate-ddl: true
+#
+#  profiles:
+#    active:
+#      - local
+#  mvc:
+#    view:
+#      prefix: /WEB-INF/views/
+#      suffix: .jsp
+#
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        SQL: DEBUG
+#        type:
+#          descriptor:
+#            sql:
+#              BasicBinder: TRACE
