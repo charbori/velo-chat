@@ -22,13 +22,15 @@ services:
     ports:
       - "6379:6379"
 
+# 결국 수동 구동하고 있기 때문에
+# DB 구동시에 디비와 테이블을 구성해야 한다.
   mysql:
     container_name : spring_mysql
-    image: mysql:5.7
-    environment:
-      MYSQL_DATABASE: test_db
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_ROOT_HOST: '%'
+    image: library/mysql:latest
     build: ./docker/mysql
+    environment: # -e 옵션
+      MYSQL_ROOT_PASSWORD: "root"
     ports:
       - "3306:3306"
+    volumes:
+      - /Users/jmlim/datadir:/var/lib/mysql

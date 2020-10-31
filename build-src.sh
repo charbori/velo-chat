@@ -12,7 +12,6 @@ docker run \
     --workdir /home/gradle/project \
     gradle:6.6.1-jdk11 gradle clean build
 
-echo
 echo "Build output:"
 
 ls -l .
