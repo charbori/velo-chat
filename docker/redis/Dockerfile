@@ -1,6 +1,11 @@
-FROM redis:6
-COPY redis.conf /usr/local/etc/redis/redis.conf
-CMD [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
+FROM redis:latest as builder
+MAINTAINER charbori
+
+ARG FILE=docker/redis/redis.conf
+
+ADD ${FILE} /docker-entrypoint-initdb.d
+
+CMD ["redis-server"]
 
 #
 #FROM openjdk:11

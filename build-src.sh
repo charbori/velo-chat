@@ -20,7 +20,21 @@ ls -l $BUILD_OUTPUT
 
 cp -r build/libs/ src/build_file_copy/
 
+# docker build -t "mysql_spring_image:0.0.2_snapshot" . -f docker/mysql/Dockerfile
+# docker build -t "redis_spring_image:0.0.2_snapshot" . -f docker/redis/Dockerfile
+
+# docker run --name mysql-spring-image docker/mysql/:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root -v volumes/mysql -d
+# docker run --name redis-spring-image docker/redis/:/var/lib/redis -v volumes/redis -d
+
+
 # ./build-src.sh
+
+#echo 'param:' $0
+pwd_val=`dirname "$0"`
+pwd_val="${pwd_val}/docker/mysql/setup.sql"
+#echo "${pwd_val}"
 
 # docker-compose 실행
 docker-compose up -d
+
+docker exec -i spring_mysql mysql -uroot -p"root" mysql < pwd_val

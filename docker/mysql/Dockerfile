@@ -1,14 +1,22 @@
-FROM mysql:latest as builder
+FROM charbori/docker-repo:mysql_spring_image
+MAINTAINER charbori
 
 #RUN ["sed", "-i", "s/exec \"$@\"/echo \"not running $@\"/", "/usr/local/bin/docker-entrypoint.sh"]
 
-#ENV MYSQL_ROOT_PASSWORD=root
-#COPY setup.sql /docker-entrypoint-initdb.d/
+ENV MYSQL_ROOT_PASSWORD=root
+ADD ./setup.sql /docker-entrypoint-initdb.d
 
-#RUN ["/usr/local/bin/docker-entrypoint.sh", "mysqld", "--datadir", "/initialized-db"]
-#
+CMD ["mysqld"]
+
+# RUN ["/usr/local/bin/docker-entrypoint.sh", "mysqld", "--datadir", "/initialized-db"]
+
+
+# docker-entrypoint-initdb.d 시작할때 "./mysql" 있는 모든 .sql .sh 파일 실행하라는 뜻
+
+# CMD ["mysqld --character-set-server=utf8 --collation-server=utf8_general_ci"]
+
 #FROM mysql:latest
-#
+
 #COPY --from=builder /initialized-db /var/lib/mysql
 #setup.sql을 활용하자
 #CMD ["mysql -uroot -p"]

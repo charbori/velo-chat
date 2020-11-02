@@ -18,19 +18,36 @@ services:
 
   redis:
     container_name: spring_redis
-    build: ./docker/redis
+    # build:
+    #   - ./docker/redis/
+    # 해당 부분의 image는 도커 허브에서 오기 때문에 (pulling...)
+    # 도커 허브에 내 도커파일 commit 하면 커스텀 이미지를 다운받아올 수 있다.
+    image: charbori/docker-repo:redis_spring_image
     ports:
       - "6379:6379"
+    # volumes:
+    #  - "./volumes/redis:/docker-entrypoint-initdb.d/"
 
 # 결국 수동 구동하고 있기 때문에
 # DB 구동시에 디비와 테이블을 구성해야 한다.
   mysql:
     container_name : spring_mysql
-    image: library/mysql:latest
-    build: ./docker/mysql
+    # build: ./docker/mysql/
+    image: charbori/docker-repo:mysql_spring_image
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
     environment: # -e 옵션
       MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_USER: root
+    # 통신할 db 지정?
+      MYSQL_DATABASE: test_db
     ports:
       - "3306:3306"
     volumes:
-      - /Users/jmlim/datadir:/var/lib/mysql
+     - "./volumes/mysql/:/docker-entrypoint-initdb.d/"
+
+
+# 도커 이미지에 동작 원리 44bits.io/ko/post/how-docker-image-work
+# 이미지를 원격 저장소에 올리고서 docker-compose up -d
+# docker tag 이미지이름:태그 도커아이디/저장하고 싶은 저장소 이름:저장하고 싶은 태그
+# docker push 입력한 도커아이디/입력한 저장소 이름:입력한 저장하고 싶은 태그
