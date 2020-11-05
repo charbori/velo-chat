@@ -7,8 +7,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class MemberServiceTest {
@@ -30,8 +28,12 @@ class MemberServiceTest {
     @Test
     void 회원가입() {
         //given
-        Member member = new Member();
-        member.setName("spring");
+        Member member = Member.builder()
+                .mem_id(12323)
+                .mem_name("sdfs")
+                .mem_email("sdfs")
+                .mem_password("asfsa")
+                .build();
 
         //when
         Long saveId = memberService.join(member);
@@ -45,11 +47,17 @@ class MemberServiceTest {
     @Test
     public void 중복_회원_예외(){
         //given
-        Member member2 = new Member();
-        member2.setName("spring");
+        Member member1 = Member.builder()
+                .mem_name("spring")
+                .mem_password("hash")
+                .mem_email("email")
+                .build();
 
-        Member member1 = new Member();
-        member1.setName("spring");
+        Member member2 = Member.builder()
+                .mem_name("spring")
+                .mem_password("hash")
+                .mem_email("email")
+                .build();
 
         //when
         memberService.join(member1);

@@ -1,5 +1,6 @@
 package couhensoft.velochat.controller;
 
+import com.sun.istack.NotNull;
 import couhensoft.velochat.domain.Member;
 import couhensoft.velochat.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +27,10 @@ public class MemberController {
     }
 
     @PostMapping("/members/new")
-    public String create(MemberForm form){
-        Member member = new Member();
-        member.setName(form.getName());
-
+    public String create(@NotNull MemberForm form){
+        Member member = Member.builder()
+                .mem_name(form.getName())
+                .build();
         memberService.join(member);
 
         return "redirect:/";

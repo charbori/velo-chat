@@ -1,15 +1,14 @@
-create database test_db CHARACTER SET utf8 COLLATE utf8_general_ci;
+create database if not exists test_db CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 USE test_db;
 
-CREATE TABLE `users`(
-   `id` int(11) not null,
-   `name` char(20) default null,
-   primary key(`id`)
+CREATE TABLE if not exists `users`(
+   `id` int(11) not null AUTO_INCREMENT PRIMARY KEY,
+   `name` char(20) default null
 ) engine=innodb default charset=utf8;
 
-CREATE TABLE `member`(
-   `mem_id` int(11) not null,
+CREATE TABLE if not exists `member`(
+   `mem_id` int(11) not null AUTO_INCREMENT PRIMARY KEY,
    `mem_name` varchar(12) default null,
    `mem_email` varchar(20) default null,
    `mem_password` varchar(1024) default null,
@@ -30,35 +29,32 @@ CREATE TABLE `member`(
    `mem_icon` varchar(20) default null,
    `mem_following` int(20) default null,
    `mem_followed` int(20) default null,
-   `mem_denied` tinyint(4) default null,
-   primary key(`mem_id`)
+   `mem_denied` tinyint(4) default null
 ) engine=innodb default charset=utf8;
 
-CREATE TABLE `board_group`(
-    `bgr_id` int(11) default null,
+CREATE TABLE if not exists `board_group`(
+    `bgr_id` int(11) not null AUTO_INCREMENT PRIMARY KEY,
     `bgr_key` varchar(20) default null,
     `bgr_name` varchar(20) default null,
     `bgr_order` int(20) default null
-   primary key(`bgr_id`)
 ) engine=innodb default charset=utf8;
 
-CREATE TABLE `board`(
-    `brd_id` int(11) default null,
+CREATE TABLE if not exists `board`(
+    `brd_id` int(11) not null AUTO_INCREMENT PRIMARY KEY,
     `bgr_id` int(11) default null,
     `brd_key` varchar(20) default null,
     `brd_name` varchar(20) default null,
     `brd_mobile_name` varchar(20) default null,
     `brd_order` int(20) default null,
     `brd_search` varchar(20) default null
-   primary key(`brd_id`)
 ) engine=innodb default charset=utf8;
 
 
-CREATE TABLE `post`(
-   `post_id` int(11) not null,
+CREATE TABLE if not exists `post`(
+   `post_id` int(11) not null AUTO_INCREMENT PRIMARY KEY,
    `post_num` int(12) default null,
    `post_reply` varchar(20) default null,
-   `brd_id` int(1024) default null,
+   `brd_id` int(255) default null,
    `post_title` varchar(20) default null,
    `post_content` varchar(20) default null,
    `post_category` varchar(20) default null,
@@ -67,7 +63,7 @@ CREATE TABLE `post`(
    `post_username` varchar(4) default null,
    `post_nickname` varchar(4) default null,
    `post_email` varchar(4) default null,
-   `post_image` text default null,
+   `post_symbol` text default null,
    `post_homepage` text(20) default null,
    `post_datetime` datetime default null,
    `post_password` varchar(20) default null,
@@ -76,26 +72,24 @@ CREATE TABLE `post`(
    `post_comment_count` int(20) default null,
    `post_comment_updated_datetime` datetime default null,
    `post_link_count` int(20) default null,
-   `post_secret` tinyint(4) default null
-   `post_notice` tinyint(4) default null
-   `post_hit` int(10) default null
-   `post_like` int(10) default null
-   `post_dislike` int(10) default null
-   --`ppo_id` int(10) default null
-   `post_ip` varchar(20) default null
-   `post_blame` int(10) default null
-   `post_file` tinyint(4) default null
-   `post_image` tinyint(4) default null
-   `post_del` tinyint(4) default null
+   `post_secret` tinyint(4) default null,
+   `post_notice` tinyint(4) default null,
+   `post_hit` int(10) default null,
+   `post_like` int(10) default null,
+   `post_dislike` int(10) default null,
+   /* `ppo_id` int(10) default null */
+   `post_ip` varchar(20) default null,
+   `post_blame` int(10) default null,
+   `post_file` tinyint(4) default null,
+   `post_image` tinyint(4) default null,
+   `post_del` tinyint(4) default null,
    `post_device` varchar(20) default null
-   primary key(`post_id`)
 ) engine=innodb default charset=utf8;
 
-create table `session`(
-   `id` varchar(11) not null,
+create table if not exists `session`(
+   `id` int(11) not null AUTO_INCREMENT PRIMARY KEY,
    `ip_address` varchar(20) default null,
    `timestamp` int(20) default null,
-   `data` BLOB ,
-   primary key(`id`)
+   `data` BLOB
 ) engine=innodb default charset=utf8;
 

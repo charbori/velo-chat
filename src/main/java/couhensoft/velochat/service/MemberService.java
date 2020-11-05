@@ -1,5 +1,7 @@
 package couhensoft.velochat.service;
 
+import com.sun.istack.NotNull;
+import couhensoft.velochat.controller.MemberForm;
 import couhensoft.velochat.domain.Member;
 import couhensoft.velochat.repository.MemberRepository;
 import couhensoft.velochat.repository.MemoryMemberRepository;
@@ -20,17 +22,17 @@ public class MemberService {
     /**
      * 회원 가입
      */
-    public Long join(Member member){
+    public Long join(@NotNull Member member){
         //같은 이름이 있는 중복 회원 X
         validataDuplicateMember(member);
 
         memberRepository.save(member);
 
-        return member.getId();
+        return member.getMem_id();
     }
 
     private void validataDuplicateMember(Member member) {
-        memberRepository.findByName(member.getName())
+        memberRepository.findByName(member.getMem_name())
                 .ifPresent(m ->{
                     throw new IllegalStateException("이미 존재하는 회원입니다.");
                 });

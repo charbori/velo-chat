@@ -44,7 +44,8 @@ services:
     ports:
       - "3306:3306"
     volumes:
-     - "./volumes/mysql/:/docker-entrypoint-initdb.d/"
+      - "./volumes/mysql/:/var/lib/mysql:rw"
+    #  - "./volumes/mysql/:/docker-entrypoint-initdb.d/"
 
 
 # 도커 이미지에 동작 원리 44bits.io/ko/post/how-docker-image-work
