@@ -18,7 +18,7 @@ public class VeloChatHomeController {
 
     @GetMapping("/home/veloChatHome")
     public String veloChatHome(Model model){
-        model.addAttribute("template", "content/welcome");
+        model.addAttribute("template", "home/content/welcome");
         return "home/veloChatHome";
     }
 

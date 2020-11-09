@@ -48,7 +48,7 @@ public class MemberService {
     /**
      * 회원 로그인
      */
-    public boolean login(@NotNull String email, String password){
+    public Optional<Member> login(@NotNull String email, String password){
         return memberRepository.checkLogin(email, password);
     }
 }

@@ -4,25 +4,37 @@ import com.sun.istack.NotNull;
 import couhensoft.velochat.domain.Member;
 import couhensoft.velochat.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class MemberController {
 
     private final MemberService memberService;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @Autowired
-    public MemberController(MemberService memberService){
+    public MemberController(MemberService memberService, RedisTemplate<String, Object> redisTemplate){
         this.memberService = memberService;
+        this.redisTemplate = redisTemplate;
     }
 
+    /**
+     * 회원 가입
+     * @return
+     */
     @GetMapping("/members/new")
     public String createForm(){
         return "members/createMemberForm";
@@ -63,6 +75,10 @@ public class MemberController {
         return "members/memberList";
     }
 
+    /**
+     * 회원 로그인
+     * @return
+     */
     @GetMapping("/members/login")
     public String loginPage(){
         return "members/login";
@@ -71,17 +87,54 @@ public class MemberController {
     @PostMapping("/members/login")
     public String loginDataPost(@NotNull MemberLoginForm form){
         String email = form.getEmail();
-        String password = form.getPassword();
+        String password = form.getEmail();
 
-        if(memberService.login(email, Hash(password))){
-            return "home/veloChatHome";
+        if(checkMemberSession(email)){
+            return "redirect:/home/veloChatHome";
         }else{
-            //실패 메시지 알림.
-            return "members/login";
+            Optional<Member> member = memberService.login(email, Hash(password));
+            member.ifPresent(member1 -> {
+                setMemberSession(member1);
+            });
+            return "redirect:/home/veloChatHome";
         }
     }
 
+    /**
+     * redis 세션 생성
+     * @param member
+     * @return
+     */
+    public void setMemberSession(Member member){
+        ValueOperations<String, Object> vop = redisTemplate.opsForValue();
+        vop.set((member.getMem_email()), Hash(member.getMem_email()));
+    }
+
+    /**
+     * redis 세션 조회
+     * @param email
+     * @return
+     */
+    public boolean checkMemberSession(String email){
+        boolean result = true;
+
+        ValueOperations<String, Object> vop = redisTemplate.opsForValue();
+        String str = (String) vop.get(email);
+
+        if(str != null){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+    /**
+     * 민감정보 해싱
+     * @param data
+     * @return
+     */
     public String Hash(String data){
+
 
         String pre = data.substring(0, data.length()/2);
         String las = data.substring(data.length()/2);

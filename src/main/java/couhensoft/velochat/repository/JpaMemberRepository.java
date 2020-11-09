@@ -39,14 +39,11 @@ public class JpaMemberRepository implements MemberRepository{
 
 
     @Override
-    public boolean checkLogin(String email, String pw){
+    public Optional<Member> checkLogin(String email, String pw){
         Member member = em.createQuery("select m from Member m where m.mem_email = :email", Member.class)
                 .setParameter("email", email)
                 .getSingleResult();
-        if(member.getMem_password().equals(pw))
-            return true;
-        else
-            return false;
+        return Optional.ofNullable(member);
     }
 
     @Override

@@ -29,10 +29,10 @@ public class MemoryMemberRepository implements MemberRepository {
     }
 
     @Override
-    public boolean checkLogin(String name, String pw){
+    public Optional<Member> checkLogin(String name, String pw){
 
 
-        return false;
+        return null;
 
     }
 
