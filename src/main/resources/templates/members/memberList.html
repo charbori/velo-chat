@@ -8,12 +8,22 @@
             <tr>
                 <th>#</th>
                 <th>이름</th>
+                <th>메일</th>
+                <th>비밀번호</th>
+                <th>핸드폰</th>
+                <th>프로필설정</th>
+                <th>알림설정</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="member : ${members}">
-                <td th:text="${member.id}"></td>
-                <td th:text="${member.name}"></td>
+                <td th:text="${member.mem_id}"></td>
+                <td th:text="${member.mem_name}"></td>
+                <td th:text="${member.mem_email}"></td>
+                <td th:text="${member.mem_password}"></td>
+                <td th:text="${member.mem_phone}"></td>
+                <td th:text="${member.mem_open_profile}"></td>
+                <td th:text="${member.mem_receive_alarm}"></td>
             </tr>
             </tbody>
         </table>

@@ -34,7 +34,7 @@ dependencies {
 	implementation 'javax.servlet:jstl:1.2'
 	implementation 'io.projectreactor:reactor-test'
 	//compile("io.lettuce:lettuce-core:6.0.1.RELEASE")
-	implementation 'org.flywaydb:flyway-core:7.1.0'
+	//implementation 'org.flywaydb:flyway-core:7.1.0'
 	// https://mvnrepository.com/artifact/com.h2database/h2
 	testCompile group: 'com.h2database', name: 'h2', version: '1.4.200'
 

@@ -1,12 +1,8 @@
 package couhensoft.velochat;
 
-import couhensoft.velochat.repository.MemoryMemberRepository;
-import couhensoft.velochat.service.MemberService;
-import org.flywaydb.core.Flyway;
 import org.h2.tools.Server;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.springframework.test.context.event.annotation.BeforeTestClass;
 
 public class MigrationTest {
 

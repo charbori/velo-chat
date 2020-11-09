@@ -9,6 +9,7 @@ public interface MemberRepository {
     Member save(Member member);
     Optional<Member> findById(Long id);
     Optional<Member> findByName(String name);
+    boolean checkLogin(String name, String pw);
     List<Member> findAll();
     void clear();
 }

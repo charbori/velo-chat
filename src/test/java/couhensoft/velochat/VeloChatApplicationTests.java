@@ -8,6 +8,7 @@ class VeloChatApplicationTests {
 
 	@Test
 	void contextLoads() {
+
 	}
 
 }

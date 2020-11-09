@@ -1,17 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="context-path" th:content="@{/}"/>
+    <title>create member</title>
+    <!-- Bootstrap core JavaScript -->
+    <script th:src="@{/webjars/jquery/3.3.1/js/jquery.min.js}"></script>
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container">
-    <form action="/members/new" method="post">
-        <div class="form-group">
-            <label for="name">이름</label>
-            <input type="text" id="name" name="name" placeholder="이름을 입력하세요">
+
+<div class="container" name="form_header">
+    <nav>logo</nav>
+</div>
+
+<div class="container" name="form_header">
+    <h1>회원가입</h1>
+</div>
+
+<div class="container centered text-center" name="form_main">
+
+    <form class="form-signin" action="/members/new" method="post">
+        <div class="mb-3">
+            <label for="name" class="sr-only">이름</label>
+            <input type="text" id="name" name="name" class="form-control"  placeholder="이름을 입력하세요">
+            <label for="name" class="sr-only">email</label>
+            <input type="text" id="email" name="email" class="form-control"  placeholder="메일을 입력하세요">
+            <label for="name" class="sr-only">암호</label>
+            <input type="password" id="password" name="password" class="form-control"  placeholder="암호">
+            <label for="name" class="sr-only">H-P</label>
+            <input type="text" id="phone" name="phone"  class="form-control" placeholder="핸드폰 번호를 입력하세요">
         </div>
-        <button type="submit">등록</button>
+        <p>개인정보 공개여부</p>
+        <div class="checkbox">
+            <label for="name"><input type="checkbox" id="openProfile" name="openProfile">프로필</label>
+            <label for="name"><input type="checkbox" id="receiveAlarm" name="receiveAlarm">알림</label>
+        </div>
+        <button class="btn btn-primary" type="submit">등록</button>
     </form>
 </div>
 </body>

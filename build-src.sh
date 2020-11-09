@@ -30,7 +30,7 @@ cp -r build/libs/ src/build_file_copy/
 # ./build-src.sh
 
 #echo 'param:' $0
-pwd_val=`dirname "$0"`
+pwd_val=$(dirname "$0")
 pwd_val="${pwd_val}/docker/mysql/setup.sql"
 #echo "${pwd_val}"
 
